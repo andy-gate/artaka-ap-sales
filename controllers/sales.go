@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
-	"time"
 
 	"fmt"
 	"io"
@@ -86,8 +85,8 @@ func submitSalesAP1(sales models.Sales, outlet_name string) models.APResponse {
 	for in := range listProduct {		
 		var temp models.Trx
 		temp.Invoice_no = sales.Sales_id
-		temp.Trans_date = sales.Create_dtm.Format(time.DateOnly)
-		temp.Trans_time = sales.Create_dtm.Format(time.DateTime)
+		temp.Trans_date = sales.Create_dtm.Format("2006-01-02")
+		temp.Trans_time = sales.Create_dtm.Format("2006-01-02 15:04:05")
 		temp.Sequence_unique = strconv.Itoa(in+1)
 		temp.Item_name = listProduct[in].Name
 		temp.Item_code = listProduct[in].Sku_id
