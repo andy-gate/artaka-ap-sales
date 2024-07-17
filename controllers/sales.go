@@ -107,7 +107,7 @@ func submitSalesAP1(sales models.Sales, outlet_name string) models.APResponse {
 		temp.Item_total_service_charge = "0"
 		temp.Invoice_tax = "0"
 		temp.Invoice_discount = strconv.Itoa(sales.Total_diskon)
-		temp.Transaction_amount = strconv.Itoa(sales.Total_bill)
+		temp.Transaction_amount = strconv.Itoa(listProduct[in].Sell_cost * listProduct[in].Number_orders)
 		temp.Currency = "IDR"
 		temp.Rate = "1"
 		temp.Payment_type = sales.Payment_method
