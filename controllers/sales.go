@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"strconv"
+	"strings"
 
 	"fmt"
 	"io"
@@ -30,7 +31,7 @@ func SendSales(c *gin.Context) {
 	}
 
 	if (sales != nil) {
-		result := submitSalesAP1(sales[0], "Trial Outlet Artaka Pertama LOP")
+		result := submitSalesAP1(sales[0], "foy shele mart")
 		c.JSON(http.StatusOK, result)
 	  } else {
 		c.JSON(http.StatusOK, json.RawMessage(`[]`))
@@ -38,7 +39,7 @@ func SendSales(c *gin.Context) {
 }
 
 func submitSalesAP1(sales models.Sales, outlet_name string) models.APResponse {
-	apiUrl := "https://api-ecsysdev.angkasapura2.co.id/api/auth/login"
+	apiUrl := "https://api-ecsys.angkasapura2.co.id/api/auth/login"
 
 	bodyReq := models.UserLogin{
 		Username: "api.artakapos.ho.4546!",
@@ -71,7 +72,7 @@ func submitSalesAP1(sales models.Sales, outlet_name string) models.APResponse {
 	var storeData models.StoreDetail
 
 	for i := range res.User.Store {
-		if res.User.Store[i].Store_name == outlet_name {
+		if strings.EqualFold(res.User.Store[i].Store_name, outlet_name) {
 			storeData = res.User.Store[i]
 		}
 	}
@@ -129,7 +130,7 @@ func submitSalesAP1(sales models.Sales, outlet_name string) models.APResponse {
 	reqAPStore.Transactions = trxAP
 	var reqAP models.APRequest
 	reqAP.Store = append(reqAP.Store, reqAPStore)
-	apiUrlAP := "https://api-ecsysdev.angkasapura2.co.id/api/v1/transaction"
+	apiUrlAP := "https://api-ecsys.angkasapura2.co.id/api/v1/transaction"
 
 	bodyBytesReq, err := json.Marshal(&reqAP)
 	if err != nil {
